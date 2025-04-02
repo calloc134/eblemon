@@ -102,12 +102,10 @@ jobs:
               # 元のファイルパス
               original_file_path="$target_dir/${local_exe_name}${local_extension}"
               # 新しいファイル名 (例: eblemon-rust-beta2-x86_64-pc-windows-msvc.exe)
-              # ↓↓↓↓ ここを修正: ../ を削除 ↓↓↓↓
               new_file_name="${local_exe_name}-${{ github.ref_name }}-${target_dir}${local_extension}"
 
               if [ -f "$original_file_path" ]; then
                 echo "Renaming '$original_file_path' to '$new_file_name'"
-                # ↓↓↓↓ ここを修正: mv でファイルをカレントディレクトリ (artifacts) 直下に移動 ↓↓↓↓
                 mv "$original_file_path" "$new_file_name"
               else
                 echo "Error: Expected file not found at '$original_file_path'"
@@ -118,7 +116,6 @@ jobs:
             fi
           done
           echo "---"
-          # ↓↓↓↓ ここを修正: カレントディレクトリ (artifacts) の内容を表示 ↓↓↓↓
           echo "Renamed artifacts in $(pwd):"
           ls -l
 
@@ -127,6 +124,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
-          # artifacts ディレクトリ内の全ファイルをアップロード (ここは変更不要)
+          # artifacts ディレクトリ内の全ファイルをアップロード
           files: artifacts/*
           generate_release_notes: true
